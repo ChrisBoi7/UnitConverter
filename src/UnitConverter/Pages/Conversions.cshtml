@@ -1,30 +1,32 @@
 @page "/Conversions/{conversionType?}/{input?}"
 @model UnitConverter.Pages.ConversionsModel
 @{
-    Layout = null;
+    ViewData["Title"] = "Conversions";
 }
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="utf-8" />
     <title>@ViewData["Title"]</title>
-
 </head>
+
 <body>
 <div>
     @if (ViewData["ErrorMessage"] != null)
     {
-
-        <p class="text-danger">@ViewData["ErrorMessage"]</p>
+        <h1>Conversion Error</h1>
+        <p>@ViewData["ErrorMessage"]</p>
     }
     else
     {
-
         <h1>@ViewData["ConversionType"]</h1>
-        <p>Conversion: @Model.ConversionType</p>
-        <p>Input: @Model.Input</p>
-        <p>Output: @Model.Output</p>
+        <p>Conversion: @Model.Conversion.ConversionType</p>
+        <p>Input: @Model.Conversion.Input</p>
+        <p>Output: @Model.Conversion.Output</p>
     }
+
+    <a href="/">Return to the conversion form</a>
 </div>
 </body>
 </html>
