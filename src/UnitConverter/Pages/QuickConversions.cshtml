@@ -88,3 +88,33 @@
         <button type="submit" class="btn btn-primary mt-2">Convert</button>
     </form>
 </div>
+
+<div class="mb-4">
+    <h2>Inches to Centimeters</h2>
+
+    <form method="get" asp-page-handler="@ConversionTypes.InchesToCentimeters">
+        <label for="inches" class="form-label">Inches</label>
+        <input id="inches"
+               name="input"
+               type="number"
+               step="any"
+               class="form-control" />
+
+        <button type="submit" class="btn btn-primary mt-2">Convert</button>
+    </form>
+</div>
+
+<div class="mb-4">
+    <h2>Centimeters to Inches</h2>
+
+    <form method="get" asp-page-handler="@ConversionTypes.CentimetersToInches">
+        <label for="centimeters" class="form-label">Centimeters</label>
+        <input id="centimeters"
+               name="input"
+               type="number"
+               step="any"
+               class="form-control" />
+
+        <button type="submit" class="btn btn-primary mt-2">Convert</button>
+    </form>
+</div>

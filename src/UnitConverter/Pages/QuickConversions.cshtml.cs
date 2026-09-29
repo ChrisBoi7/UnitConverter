@@ -61,6 +61,20 @@ public class QuickConversionsModel : PageModel
             input);
     }
 
+    public IActionResult OnGetInchesToCentimeters(string input)
+    {
+        return RedirectToConversion(
+            ConversionTypes.InchesToCentimeters,
+            input);
+    }
+
+    public IActionResult OnGetCentimetersToInches(string input)
+    {
+        return RedirectToConversion(
+            ConversionTypes.CentimetersToInches,
+            input);
+    }
+
     private IActionResult RedirectToConversion(string conversionType, string input)
     {
         return RedirectToPage(
