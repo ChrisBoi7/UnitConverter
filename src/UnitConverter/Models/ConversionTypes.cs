@@ -1,4 +1,4 @@
-namespace UnitConverter;
+namespace UnitConverter.Models;
 
 public static class ConversionTypes
 {

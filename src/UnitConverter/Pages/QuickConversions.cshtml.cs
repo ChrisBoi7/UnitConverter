@@ -1,3 +1,5 @@
+using UnitConverter.Models;
+using UnitConverter.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -6,6 +8,12 @@ namespace UnitConverter.Pages;
 
 public class QuickConversionsModel : PageModel
 {
+    private readonly IConversionService _conversionService;
+
+    public string Output { get; set; } = string.Empty;
+
+    public string ErrorMessage { get; set; } = string.Empty;
+
     public IEnumerable<SelectListItem> PoundOptions =>
     [
         new("1 pound", "1"),
@@ -15,75 +23,89 @@ public class QuickConversionsModel : PageModel
         new("50 pounds", "50")
     ];
 
+    public QuickConversionsModel(IConversionService conversionService)
+    {
+        _conversionService = conversionService;
+    }
+
     public void OnGet()
     {
     }
 
     public IActionResult OnGetMilesToKilometers(string input)
     {
-        return RedirectToConversion(
-            ConversionTypes.MilesToKilometers,
-            input);
+        return PerformConversion(
+            input,
+            ConversionTypes.MilesToKilometers);
     }
 
     public IActionResult OnGetKilometersToMiles(string input)
     {
-        return RedirectToConversion(
-            ConversionTypes.KilometersToMiles,
-            input);
+        return PerformConversion(
+            input,
+            ConversionTypes.KilometersToMiles);
     }
 
     public IActionResult OnGetFahrenheitToCelsius(string input)
     {
-        return RedirectToConversion(
-            ConversionTypes.FahrenheitToCelsius,
-            input);
+        return PerformConversion(
+            input,
+            ConversionTypes.FahrenheitToCelsius);
     }
 
     public IActionResult OnGetCelsiusToFahrenheit(string input)
     {
-        return RedirectToConversion(
-            ConversionTypes.CelsiusToFahrenheit,
-            input);
+        return PerformConversion(
+            input,
+            ConversionTypes.CelsiusToFahrenheit);
     }
 
     public IActionResult OnGetPoundsToKilograms(string input)
     {
-        return RedirectToConversion(
-            ConversionTypes.PoundsToKilograms,
-            input);
+        return PerformConversion(
+            input,
+            ConversionTypes.PoundsToKilograms);
     }
 
     public IActionResult OnGetKilogramsToPounds(string input)
     {
-        return RedirectToConversion(
-            ConversionTypes.KilogramsToPounds,
-            input);
+        return PerformConversion(
+            input,
+            ConversionTypes.KilogramsToPounds);
     }
 
     public IActionResult OnGetInchesToCentimeters(string input)
     {
-        return RedirectToConversion(
-            ConversionTypes.InchesToCentimeters,
-            input);
+        return PerformConversion(
+            input,
+            ConversionTypes.InchesToCentimeters);
     }
 
     public IActionResult OnGetCentimetersToInches(string input)
     {
-        return RedirectToConversion(
-            ConversionTypes.CentimetersToInches,
-            input);
+        return PerformConversion(
+            input,
+            ConversionTypes.CentimetersToInches);
     }
 
-    private IActionResult RedirectToConversion(string conversionType, string input)
+    private IActionResult PerformConversion(string input, string conversionType)
     {
-        return RedirectToPage(
-            "/Conversions",
-            new
-            {
-                conversionType,
-                input
-            });
+        if (!decimal.TryParse(input, out decimal value))
+        {
+            ErrorMessage = "Input invalid, input must be a valid number.";
+            return Page();
+        }
+
+        try
+        {
+            decimal result = _conversionService.Convert(value, conversionType);
+            Output = result.ToString();
+        }
+        catch (InvalidOperationException ex)
+        {
+            ErrorMessage = ex.Message;
+        }
+
+        return Page();
     }
 }
-

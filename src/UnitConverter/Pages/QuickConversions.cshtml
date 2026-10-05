@@ -11,6 +11,20 @@
     <a asp-page="/Index">Back to Home</a>
 </p>
 
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger" role="alert">
+        @Model.ErrorMessage
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(Model.Output))
+{
+    <div class="alert alert-success" role="status">
+        <strong>Result:</strong> @Model.Output
+    </div>
+}
+
 <div class="mb-4">
     <h2>Miles to Kilometers</h2>
 
